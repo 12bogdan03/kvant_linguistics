@@ -1,0 +1,115 @@
+{% load bootstrap3 %}
+{% bootstrap_css %}
+{% bootstrap_javascript %}
+{% bootstrap_messages %}
+{% load custom_filters %}
+<head>
+    <meta charset="UTF-8">
+    <title>Квантитативна лінгвістика</title>
+</head>
+<body>
+    <div class="container">
+
+        {% if frequency_dict %}
+            <h3>Частотний словник</h3>
+            <table class="table table-hover">
+            <thead>
+              <tr>
+                <th>Словоформа</th>
+                <th>Частота</th>
+              </tr>
+            </thead>
+            <tbody>
+                {% for i, j in frequency_dict.items %}
+                    <tr>
+                        <td>{{ i }}</td>
+                        <td>{{ j }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+            </table>
+
+        {% elif series_dict %}
+            <h3>Варіаційний ряд словоформи <strong>" {{ word }} "</strong></h3>
+             <table class="table table-hover">
+            <thead>
+              <tr>
+                <th>Частота</th>
+                <th>Кількість виборок</th>
+              </tr>
+            </thead>
+            <tbody>
+                {% for i, j in series_dict.items %}
+                    <tr>
+                        <td>{{ i }}</td>
+                        <td>{{ j }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+            </table>
+
+        {% elif characteristics_dict %}
+            <h3>Характеристика словоформи <strong>" {{ word }} "</strong></h3>
+            <table class="table table-hover">
+            <thead>
+              <tr>
+                <th>Характеристика</th>
+                <th>Обчислення</th>
+              </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Абсолютна частота</td>
+                    <td>{{ characteristics_dict|get_item:"Абсолютна частота" }}</td>
+                </tr>
+                <tr>
+                    <td>Середня частота</td>
+                    <td>{{ characteristics_dict|get_item:"Середня частота" }}</td>
+                </tr>
+                <tr>
+                    <td>Середня відн. частота(метод 1)</td>
+                    <td>{{ characteristics_dict|get_item:"Середня відн. частота(метод 1)" }}</td>
+                </tr>
+                <tr>
+                    <td>Середня відн. частота(метод 2)</td>
+                    <td>{{ characteristics_dict|get_item:"Середня відн. частота(метод 2)" }}</td>
+                </tr>
+                <tr>
+                    <td>Середнє квадрат. відхилення</td>
+                    <td>{{ characteristics_dict|get_item:"Середнє квадрат. відхилення" }}</td>
+                </tr>
+                <tr>
+                    <td>Інтервал 2σ</td>
+                    <td>{{ characteristics_dict|get_item:"Інтервал 2σ" }}</td>
+                </tr>
+                <tr>
+                    <td>Міра колив.сер.част.</td>
+                    <td>{{ characteristics_dict|get_item:"Міра колив.сер.част." }}</td>
+                </tr>
+                <tr>
+                    <td>Інтервал 2σх</td>
+                    <td>{{ characteristics_dict|get_item:"Інтервал 2σх" }}</td>
+                </tr>
+                <tr>
+                    <td>Коефіцієнт варіації</td>
+                    <td>{{ characteristics_dict|get_item:"Коефіцієнт варіації" }}</td>
+                </tr>
+                <tr>
+                    <td>Макс.коефіцієнт варіації</td>
+                    <td>{{ characteristics_dict|get_item:"Макс.коефіцієнт варіації" }}</td>
+                </tr>
+                <tr>
+                    <td>Коефіцієнт стабільності</td>
+                    <td>{{ characteristics_dict|get_item:"Коефіцієнт стабільності" }}</td>
+                </tr>
+                <tr>
+                    <td>Відносна похибка дослідження</td>
+                    <td>{{ characteristics_dict|get_item:"Відносна похибка дослідження" }}</td>
+                </tr>
+            </tbody>
+            </table>
+
+        {% endif %}
+    </div>
+
+</body>
