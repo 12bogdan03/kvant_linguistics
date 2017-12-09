@@ -16,10 +16,9 @@ def get_absolute_frequency(word, sample):
     return sample.count(word)
 
 
-def get_parts_list(general_sample, number_of_samples):
-    sample_length = len(general_sample) // number_of_samples
+def get_parts_list(general_sample, number_of_samples, sample_length):
     parts = [general_sample[i:i + sample_length] for i in
-            range(0, len(general_sample), sample_length)]
+             range(0, len(general_sample), sample_length)]
     if len(parts) > number_of_samples:
         return parts[:number_of_samples]
     return parts
@@ -32,8 +31,8 @@ def get_frequencies_list(word, parts):
     return frequencies
 
 
-def generate_variation_series(word, general_sample, number_of_samples):
-    parts = get_parts_list(general_sample, number_of_samples)
+def generate_variation_series(word, general_sample, number_of_samples, sample_length):
+    parts = get_parts_list(general_sample, number_of_samples, sample_length)
     frequencies = get_frequencies_list(word, parts)
 
     frequencies = Counter(frequencies)
@@ -41,8 +40,8 @@ def generate_variation_series(word, general_sample, number_of_samples):
     return frequencies
 
 
-def get_average_frequency(word, general_sample, number_of_samples):
-    parts = get_parts_list(general_sample, number_of_samples)
+def get_average_frequency(word, general_sample, number_of_samples, sample_length):
+    parts = get_parts_list(general_sample, number_of_samples, sample_length)
     frequencies = get_frequencies_list(word, parts)
 
     frequencies = Counter(frequencies)
@@ -52,8 +51,8 @@ def get_average_frequency(word, general_sample, number_of_samples):
     return multiplications_sum/len(parts)
 
 
-def get_relative_frequency_1(word, general_sample, number_of_samples):
-    parts = get_parts_list(general_sample, number_of_samples)
+def get_relative_frequency_1(word, general_sample, number_of_samples, sample_length):
+    parts = get_parts_list(general_sample, number_of_samples, sample_length)
     frequencies = get_frequencies_list(word, parts)
 
     variation_series = [frequencies[i]/len(parts[i]) for i in
@@ -66,8 +65,8 @@ def get_relative_frequency_1(word, general_sample, number_of_samples):
     return multiplications_sum/sum(frequencies_count)
 
 
-def get_relative_frequency_2(word, general_sample, number_of_samples):
-    parts = get_parts_list(general_sample, number_of_samples)
+def get_relative_frequency_2(word, general_sample, number_of_samples, sample_length):
+    parts = get_parts_list(general_sample, number_of_samples, sample_length)
     frequencies = get_frequencies_list(word, parts)
 
     parts_length = 0
@@ -77,8 +76,8 @@ def get_relative_frequency_2(word, general_sample, number_of_samples):
     return sum(frequencies)/parts_length
 
 
-def get_average_quadratic_deviation(word, general_sample, number_of_samples):
-    parts = get_parts_list(general_sample, number_of_samples)
+def get_average_quadratic_deviation(word, general_sample, number_of_samples, sample_length):
+    parts = get_parts_list(general_sample, number_of_samples, sample_length)
     frequencies = get_frequencies_list(word, parts)
 
     frequencies = Counter(frequencies)
@@ -86,7 +85,7 @@ def get_average_quadratic_deviation(word, general_sample, number_of_samples):
     Ni = [frequencies[i] for i in frequencies]
 
     average_frequency = get_average_frequency(word, general_sample,
-                                              number_of_samples)
+                                              number_of_samples, sample_length)
 
     #  temporary variable, to sum numerator later
     n = [((Xi[i] - average_frequency)**2)*Ni[i] for i in range(len(Xi))]
@@ -96,13 +95,13 @@ def get_average_quadratic_deviation(word, general_sample, number_of_samples):
     return sqrt(numerator/denominator)
 
 
-def get_confidence_interval_2_sigma(word, general_sample, number_of_samples):
-    parts = get_parts_list(general_sample, number_of_samples)
+def get_confidence_interval_2_sigma(word, general_sample, number_of_samples, sample_length):
+    parts = get_parts_list(general_sample, number_of_samples, sample_length)
     average_quadratic_deviation = get_average_quadratic_deviation(word,
                                                                   general_sample,
-                                                                  number_of_samples)
+                                                                  number_of_samples, sample_length)
     average_frequency = get_average_frequency(word, general_sample,
-                                              number_of_samples)
+                                              number_of_samples, sample_length)
     minimum = average_frequency - 2*average_quadratic_deviation
     maximum = average_frequency + 2*average_quadratic_deviation
     frequencies = get_frequencies_list(word, parts)
@@ -116,24 +115,26 @@ def get_confidence_interval_2_sigma(word, general_sample, number_of_samples):
             (number_of_appropriate_frequencies*100)/len(frequencies))
 
 
-def get_variation_of_average_frequency(word, general_sample, number_of_samples):
+def get_variation_of_average_frequency(word, general_sample, number_of_samples, sample_length):
     average_quadratic_deviation = get_average_quadratic_deviation(word,
                                                                   general_sample,
-                                                                  number_of_samples)
-    parts = get_parts_list(general_sample, number_of_samples)
+                                                                  number_of_samples, sample_length)
+    parts = get_parts_list(general_sample, number_of_samples, sample_length)
     return average_quadratic_deviation/sqrt(len(parts))
 
 
 def get_confidence_interval_2_variation_of_average_frequency(word,
                                                              general_sample,
-                                                             number_of_samples):
-    parts = get_parts_list(general_sample, number_of_samples)
+                                                             number_of_samples,
+                                                             sample_length):
+    parts = get_parts_list(general_sample, number_of_samples, sample_length)
 
     variation_of_average_frequency = get_variation_of_average_frequency(word,
                                                                         general_sample,
-                                                                        number_of_samples)
+                                                                        number_of_samples,
+                                                                        sample_length)
     average_frequency = get_average_frequency(word, general_sample,
-                                              number_of_samples)
+                                              number_of_samples, sample_length)
     minimum = average_frequency - 2 * variation_of_average_frequency
     maximum = average_frequency + 2 * variation_of_average_frequency
 
@@ -148,84 +149,104 @@ def get_confidence_interval_2_variation_of_average_frequency(word,
             (number_of_appropriate_frequencies * 100)/len(frequencies))
 
 
-def get_coefficient_of_variation(word, general_sample, number_of_samples):
+def get_coefficient_of_variation(word, general_sample, number_of_samples, sample_length):
     average_quadratic_deviation = get_average_quadratic_deviation(word,
                                                                   general_sample,
-                                                                  number_of_samples)
+                                                                  number_of_samples,
+                                                                  sample_length)
     average_frequency = get_average_frequency(word,
                                               general_sample,
-                                              number_of_samples)
+                                              number_of_samples,
+                                              sample_length)
     return average_quadratic_deviation/average_frequency
 
 
-def get_max_coefficient_of_variation(general_sample, number_of_samples):
-    parts = get_parts_list(general_sample, number_of_samples)
+def get_max_coefficient_of_variation(general_sample, number_of_samples, sample_length):
+    parts = get_parts_list(general_sample, number_of_samples, sample_length)
     return sqrt(len(parts)-1)
 
 
-def get_coefficient_of_stability(word, general_sample, number_of_samples):
+def get_coefficient_of_stability(word, general_sample, number_of_samples, sample_length):
     coefficient_of_variation = get_coefficient_of_variation(word,
                                                             general_sample,
-                                                            number_of_samples)
+                                                            number_of_samples,
+                                                            sample_length)
     max_coefficient_of_variation = get_max_coefficient_of_variation(general_sample,
-                                                                    number_of_samples)
+                                                                    number_of_samples,
+                                                                    sample_length)
     return 1-(coefficient_of_variation/max_coefficient_of_variation)
 
 
-def get_relative_error(word, general_sample, number_of_samples):
+def get_relative_error(word, general_sample, number_of_samples, sample_length):
     variation_of_average_frequency = get_variation_of_average_frequency(word,
                                                                         general_sample,
-                                                                        number_of_samples)
-    average_frequency = get_average_frequency(word, general_sample, number_of_samples)
+                                                                        number_of_samples,
+                                                                        sample_length)
+    average_frequency = get_average_frequency(word, general_sample, number_of_samples,
+                                              sample_length)
     return (1.96*variation_of_average_frequency)/average_frequency
 
 
-def generate_characteristics_dict(word, words, number_of_samples):
+def generate_characteristics_dict(word, words, number_of_samples, sample_length):
     characterictics_dict = dict()
 
     abs_freq = get_absolute_frequency(word, words)
     avg_freq = get_average_frequency(word, words,
-                                     number_of_samples)
+                                     number_of_samples,
+                                     sample_length)
     rel_freq_1 = get_relative_frequency_1(word, words,
-                                          number_of_samples)
+                                          number_of_samples, sample_length)
     rel_freq_2 = get_relative_frequency_2(word, words,
-                                          number_of_samples)
+                                          number_of_samples, sample_length)
     avg_quadratic_dev = get_average_quadratic_deviation(word,
                                                         words,
-                                                        number_of_samples)
+                                                        number_of_samples,
+                                                        sample_length)
 
     minimum = str(round(get_confidence_interval_2_sigma(word,
                                                         words,
-                                                        number_of_samples)[0], 2))
+                                                        number_of_samples,
+                                                        sample_length)[0], 2))
     maximum = str(round(get_confidence_interval_2_sigma(word, words,
-                                                        number_of_samples)[1], 2))
+                                                        number_of_samples,
+                                                        sample_length)[1], 2))
     percentage = str(get_confidence_interval_2_sigma(word, words,
-                                                     number_of_samples)[2])
+                                                     number_of_samples,
+                                                     sample_length)[2])
     # довірчий інтервал 2σ
     confidence_interval_1 = 'min:' + minimum + ', ' + 'max:' + maximum + '  охоплює ' + percentage + '%' + ' вибірки'
     var_of_avg_freq = get_variation_of_average_frequency(word,
                                                          words,
-                                                         number_of_samples)
+                                                         number_of_samples,
+                                                         sample_length)
 
     minimum = str(round(get_confidence_interval_2_variation_of_average_frequency(word,
                                                                                  words,
-                                                                                 number_of_samples)[0], 2))
+                                                                                 number_of_samples,
+                                                                                 sample_length)[0], 2))
     maximum = str(round(get_confidence_interval_2_variation_of_average_frequency(word,
-                                                                                 words, 10)[1], 2))
+                                                                                 words,
+                                                                                 number_of_samples,
+                                                                                 sample_length)[1], 2))
     percentage = str(get_confidence_interval_2_variation_of_average_frequency(word,
                                                                               words,
-                                                                              number_of_samples)[2])
+                                                                              number_of_samples,
+                                                                              sample_length)[2])
     confidence_interval_2 = 'min:' + minimum + ', ' + 'max:' + maximum + '  охоплює ' + percentage + '%' + ' вибірки'
 
     coef_of_variation = get_coefficient_of_variation(word, words,
-                                                     number_of_samples)
+                                                     number_of_samples,
+                                                     sample_length)
     max_coef_of_variation = get_max_coefficient_of_variation(words,
-                                                             number_of_samples)
+                                                             number_of_samples,
+                                                             sample_length)
     coef_of_stability = get_coefficient_of_stability(word,
                                                      words,
-                                                     number_of_samples)
+                                                     number_of_samples,
+                                                     sample_length)
     relative_error = get_relative_error(word, words,
-                                        number_of_samples)
+                                        number_of_samples,
+                                        sample_length)
 
     characterictics_dict['Абсолютна частота'] = abs_freq
     characterictics_dict['Середня частота'] = avg_freq

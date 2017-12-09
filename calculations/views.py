@@ -34,18 +34,22 @@ class IndexView(generic.View):
             elif form.cleaned_data['calculation'] == 'Варіаційний ряд':
                 word = form.cleaned_data['wordform']
                 number_of_samples = form.cleaned_data['number_of_samples']
+                sample_length = form.cleaned_data['sample_length']
                 series_dict = dict(generate_variation_series(word,
                                                              words,
-                                                             number_of_samples))
+                                                             number_of_samples,
+                                                             sample_length))
                 context = {'word': word,
                            'series_dict': series_dict}
 
             elif form.cleaned_data['calculation'] == 'Статистичні характеристики':
                 word = form.cleaned_data['wordform']
                 number_of_samples = form.cleaned_data['number_of_samples']
+                sample_length = form.cleaned_data['sample_length']
                 characteristics_dict = generate_characteristics_dict(word,
                                                                      words,
-                                                                     number_of_samples)
+                                                                     number_of_samples,
+                                                                     sample_length)
                 context = {'word': word,
                            'characteristics_dict': characteristics_dict}
 

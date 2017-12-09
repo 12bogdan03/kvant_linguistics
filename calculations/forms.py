@@ -12,6 +12,8 @@ class TextForm(forms.Form):
     text = forms.CharField(widget=forms.Textarea, label='Текст')
     number_of_samples = forms.IntegerField(min_value=2, initial=10,
                                            label='Кількість підвиборок')
+    sample_length = forms.IntegerField(min_value=10, initial=100,
+                                       label='Розмір підвибірки')
     calculation = forms.ChoiceField(widget=forms.RadioSelect,
                                     choices=CALCULATION_CHOICES,
                                     initial='Частотний словник',

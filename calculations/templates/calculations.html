@@ -48,6 +48,32 @@
             </tbody>
             </table>
 
+            <h4 style="text-align: center">Полігон частот</h4>
+            <div id="chart" class="row col-md-2 col-md-offset-3"></div>
+
+            <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
+            <script type="text/javascript">
+            // Load google charts
+            google.charts.load('current', {'packages':['corechart']});
+            google.charts.setOnLoadCallback(drawChart);
+
+            // Draw the chart and set the chart values
+            function drawChart() {
+              var data = google.visualization.arrayToDataTable([
+              ['Xi', 'Ni'],
+              {% for i, j in series_dict.items %}
+                  ['{{ i }}', {{ j }}],
+              {% endfor %}
+            ]);
+
+              var options = {'width':550, 'height':400};
+
+              var chart = new google.visualization.LineChart(document.getElementById('chart'));
+              chart.draw(data, options);
+            }
+            </script>
+
         {% elif characteristics_dict %}
             <h3>Характеристика словоформи <strong>" {{ word }} "</strong></h3>
             <table class="table table-hover">
