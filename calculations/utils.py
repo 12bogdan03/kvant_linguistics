@@ -18,8 +18,11 @@ def get_absolute_frequency(word, sample):
 
 def get_parts_list(general_sample, number_of_samples):
     sample_length = len(general_sample) // number_of_samples
-    return [general_sample[i:i + sample_length] for i in
+    parts = [general_sample[i:i + sample_length] for i in
             range(0, len(general_sample), sample_length)]
+    if len(parts) > number_of_samples:
+        return parts[:number_of_samples]
+    return parts
 
 
 def get_frequencies_list(word, parts):
