@@ -25,11 +25,12 @@ class IndexView(generic.View):
         if form.is_valid():
             text = form.cleaned_data['text']
             words = [word.strip(string.punctuation) for word in text.split()
-                     if word not in (string.punctuation, '', '—')]
+                     if word not in [string.punctuation, '', '—', '\n', '\t']]
 
             if form.cleaned_data['calculation'] == 'Частотний словник':
                 frequency_dict = generate_frequency_dictionary(words)
-                context = {'frequency_dict': frequency_dict}
+                context = {'frequency_dict': frequency_dict,
+                           'text_length': len(words)}
 
             elif form.cleaned_data['calculation'] == 'Варіаційний ряд':
                 word = form.cleaned_data['wordform']
