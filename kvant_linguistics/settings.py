@@ -11,9 +11,9 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = '*-u!&^a(dz_jz(n4fagaa!@c%sxyysc(5x8m6ser@#8p%uc@s+'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
-ALLOWED_HOSTS = ['kvantlinguistics.pythonanywhere.com']
+ALLOWED_HOSTS = ['kvantlinguistics.pythonanywhere.com', 'localhost']
 
 
 # Application definition
