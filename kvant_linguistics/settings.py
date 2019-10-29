@@ -13,7 +13,7 @@ SECRET_KEY = '*-u!&^a(dz_jz(n4fagaa!@c%sxyysc(5x8m6ser@#8p%uc@s+'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*.herokuapp.com', 'localhost']
+ALLOWED_HOSTS = ['kvant-linguistics.herokuapp.com', 'localhost']
 
 
 # Application definition
